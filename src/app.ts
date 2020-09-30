@@ -8,7 +8,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import Controller from './main.controller';
 
-class App {
+export class App {
   public app: Application;
 
   // declaring our controller
