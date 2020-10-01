@@ -1,7 +1,7 @@
 // src/main.controller.ts
 
 import { Application } from 'express';
-import { requireJWTAuthentication, loggedMiddleware } from './middleware/auth';
+import { requireJWTAuthentication, loggedMiddleware } from './middlewares/auth';
 import ApiService from './services/api.service';
 import AuthService from './services/auth.service';
 

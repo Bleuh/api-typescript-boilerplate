@@ -63,7 +63,7 @@ export default class AuthService {
       }).exec();
       if (user) {
         if (!bcrypt.compareSync(password, user.password)) {
-          return res.status(400).json(RequestUtil.apiErrorResponse('Wrong password.'));
+          return res.status(401).json(RequestUtil.apiErrorResponse('Wrong password.'));
         }
         const accessToken = jsonwebtoken.sign({ id: user.id }, ACCESS_TOKEN_SECRET);
         return res.status(200).json(RequestUtil.apiSuccessResponse('User found.', { accessToken }));
