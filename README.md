@@ -2,11 +2,11 @@
 
 API boilerplate in Typescript.
 
-## Features
+## EndPoints
 
-### User
-
-- [Register/Login](#register/login)
+- [Register](#register)
+- [Login](#login)
+- [User](#user)
 
 ## How to launch
 
@@ -37,22 +37,128 @@ I will show you here some example for each route
 
 This route gives you all routes available
 
-### Register/Login
+### Register
 
-> /register
+**URL** : `/register`
 
-```bash
-curl --location --request POST 'localhost:3000/register' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---data-urlencode 'login=foo' \
---data-urlencode 'password=foo-password'
+**Method** : `POST`
+
+**Data constraints**
+
+```json
+{
+    "login": "[valid login]",
+    "password": "[password in plain text]"
+}
 ```
 
-> /login
+#### Success Response
 
-```bash
-curl --location --request POST 'localhost:3000/login' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---data-urlencode 'login=foo' \
---data-urlencode 'password=foo-password'
+User created.
+
+**Code** : `201 CREATED`
+
+**Content example**
+
+```json
+{
+    "message": "User successfully created.",
+    "error": null,
+    "data": {
+        "dateOfEntry": "2020-10-01T10:12:39.787Z",
+        "lastUpdated": "2020-10-01T10:12:39.787Z",
+        "_id": "5f75abc2f2e478003494bea1",
+        "login": "Bleuh5",
+        "password": "$2a$10$RIX5D0DOWMl7udaQrVNbCe9bco73qJwuJzCcoT1JxLunXBvRXSSNq",
+        "__v": 0
+    }
+}
 ```
+
+#### Error Response
+
+**Condition** : Something get wrong with the request.
+
+**Code** : `400 BAD REQUEST`
+
+**Condition** : If user already exist.
+
+**Code** : `409 CONFLICT`
+
+## Login
+
+**URL** : `/login`
+
+**Method** : `POST`
+
+**Data constraints**
+
+```json
+{
+    "login": "[valid login]",
+    "password": "[password in plain text]"
+}
+```
+
+#### Success Response
+
+User created.
+
+**Code** : `200 OK`
+
+**Content example**
+
+```json
+{
+    "message": "User found.",
+    "error": null,
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNzQ2ZDcwZmIyMWY4MDAyNzA4MDAyMyIsImlhdCI6MTYwMTU0NzE3Nn0.hWjKHbkIiglL2LK2cQJEhnD3As4uwTg-2sTbkR8199o"
+    }
+}
+```
+
+#### Error Response
+
+**Condition** : Something get wrong with the request.
+
+**Code** : `400 BAD REQUEST`
+
+**Condition** : If 'login' and 'password' combination is wrong.
+
+**Code** : `401 UNAUTHORIZED`
+
+### User
+
+**URL** : `/user/info`
+
+**Method** : `POST`
+
+**Auth required** : Authorization header with Bearer token
+
+#### Success Response
+
+**Code** : `200 OK`
+
+**Content example**
+
+```json
+{
+    "message": "User found",
+    "error": null,
+    "data": {
+        "dateOfEntry": "2020-09-30T11:34:35.941Z",
+        "lastUpdated": "2020-09-30T11:34:35.941Z",
+        "_id": "5f746d70fb21f80027080023",
+        "login": "Bleuh",
+        "password": "$2a$10$AMMv0hBg2YE/XTXsD1qq6uk.JShnLuejSlTo/E7bAX56GW6MSdP1i",
+        "__v": 0
+    }
+}
+```
+
+#### Error Response
+
+**Condition** : If access token is wrong.
+
+**Code** : `401 UNAUTHORIZED`
